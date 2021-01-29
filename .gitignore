@@ -1,2 +1,4 @@
 # Project exclude paths
 /lesson01-servletApi/target/
+.idea
+/target
