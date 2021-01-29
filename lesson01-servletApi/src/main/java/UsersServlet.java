@@ -22,8 +22,8 @@ public class UsersServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.getWriter().println("<h1>Users</h1>");
         resp.getWriter().println("<ul>");
-        for (User user:
-             userRepository.findAll()) {
+        for (User user: userRepository.findAll()) {
+
             resp.getWriter().println(String.format("<li><a href = \"%s\">UserName: %s</a></li>",
                     req.getContextPath() + "/user/" + user.getId(),
                     user.getUsername()));
