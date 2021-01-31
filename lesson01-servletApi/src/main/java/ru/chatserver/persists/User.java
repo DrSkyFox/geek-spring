@@ -1,4 +1,4 @@
-package persists;
+package ru.chatserver.persists;
 
 public class User {
     private Integer id;
