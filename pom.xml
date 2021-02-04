@@ -12,6 +12,7 @@
     <modules>
         <module>lesson01-servletApi</module>
         <module>lesson02-spring-basics-chat</module>
+        <module>lesson3-springMVC</module>
     </modules>
 
     <properties>
