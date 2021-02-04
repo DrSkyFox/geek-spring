@@ -1,4 +1,4 @@
-package persists;
+package ru.chatserver.persists;
 
 
 import java.util.*;

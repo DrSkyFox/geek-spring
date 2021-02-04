@@ -1,4 +1,4 @@
-import persists.UserRepository;
+import ru.chatserver.persists.UserRepository;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
