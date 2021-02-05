@@ -45,7 +45,7 @@ public class UserController {
     public String update(User user) {
         logger.info("Update endpoint requested");
 
-        if (user.getId() != -1) {
+        if (user.getId() != null) {
             logger.info("Updating user with id {}", user.getId());
             userRepository.update(user);
         } else {
@@ -56,7 +56,9 @@ public class UserController {
     }
 
     @GetMapping("/new")
-    public String create() {
+    public String create(Model model)
+    {
+        model.addAttribute("user", new User());
         return "user_form";
     }
 

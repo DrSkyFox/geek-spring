@@ -47,7 +47,7 @@ public class ProductController {
     public String update(Product product) {
         logger.info("Update endpoint requested");
 
-        if (product.getId() != -1) {
+        if (product.getId() != null) {
             logger.info("Updating product with id {}", product.getId());
             productRepository.update(product);
         } else {
@@ -58,7 +58,8 @@ public class ProductController {
     }
 
     @GetMapping("/new")
-    public String create() {
+    public String create(Model model) {
+        model.addAttribute("product", new Product());
         return "product_form";
     }
 
