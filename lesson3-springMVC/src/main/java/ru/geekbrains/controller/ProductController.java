@@ -1,4 +1,4 @@
-package controller;
+package ru.geekbrains.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,61 +9,62 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import ru.geekbrains.persist.Product;
+import ru.geekbrains.persist.ProductRepository;
 import ru.geekbrains.persist.User;
 import ru.geekbrains.persist.UserRepository;
 
 @Controller
-@RequestMapping("/user")
-public class UserController {
+@RequestMapping("/product")
+public class ProductController {
 
-    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+    private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 
-    private UserRepository userRepository;
+    private ProductRepository productRepository;
 
     @Autowired
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public ProductController(ProductRepository productRepository) {
+        this.productRepository = productRepository;
     }
 
     @GetMapping
     public String listPage(Model model) {
         logger.info("List page requested");
 
-        model.addAttribute("users", userRepository.findAll());
-        return "user";
+        model.addAttribute("product", productRepository.findAll());
+        return "product";
     }
 
     @GetMapping("/{id}")
     public String editPage(@PathVariable("id") Long id, Model model) {
         logger.info("Edit page for id {} requested", id);
 
-        model.addAttribute("user", userRepository.findById(id));
-        return "user_form";
+        model.addAttribute("product", productRepository.findById(id));
+        return "product_form";
     }
 
     @PostMapping("/update")
-    public String update(User user) {
+    public String update(Product product) {
         logger.info("Update endpoint requested");
 
-        if (user.getId() != -1) {
-            logger.info("Updating user with id {}", user.getId());
-            userRepository.update(user);
+        if (product.getId() != -1) {
+            logger.info("Updating product with id {}", product.getId());
+            productRepository.update(product);
         } else {
-            logger.info("Creating new user");
-            userRepository.insert(user);
+            logger.info("Creating new product");
+            productRepository.insert(product);
         }
-        return "redirect:/user";
+        return "redirect:/product";
     }
 
     @GetMapping("/new")
     public String create() {
-        // TODO
-        return null;
+        return "product_form";
     }
 
     @GetMapping("/{id}/delete")
     public String remove(@PathVariable("id") Long id) {
-        // TODO
-        return null;
+        productRepository.delete(id);
+        return "redirect:/product";
     }
 }

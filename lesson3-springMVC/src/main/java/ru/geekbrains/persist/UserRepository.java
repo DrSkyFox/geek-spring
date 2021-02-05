@@ -1,4 +1,4 @@
-package persist;
+package ru.geekbrains.persist;
 
 import org.springframework.stereotype.Repository;
 
@@ -18,7 +18,7 @@ public class UserRepository {
 
     @PostConstruct
     public void init() {
-        this.insert(new User("user1"));
+        this.insert(new User("Пользователь 1"));
         this.insert(new User("user2"));
         this.insert(new User("user3"));
     }
