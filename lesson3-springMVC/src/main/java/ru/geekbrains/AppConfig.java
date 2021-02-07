@@ -1,3 +1,5 @@
+package ru.geekbrains;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -47,6 +49,7 @@ public class AppConfig implements WebMvcConfigurer {
         resolver.setPrefix("/WEB-INF/views/");
         resolver.setSuffix(".html");
         resolver.setCacheable(false);
+        resolver.setCharacterEncoding("UTF-8");
         resolver.setTemplateMode(TemplateMode.HTML);
         return resolver;
     }

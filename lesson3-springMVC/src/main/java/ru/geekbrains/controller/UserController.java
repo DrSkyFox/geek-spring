@@ -1,4 +1,4 @@
-package controller;
+package ru.geekbrains.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,7 +45,7 @@ public class UserController {
     public String update(User user) {
         logger.info("Update endpoint requested");
 
-        if (user.getId() != -1) {
+        if (user.getId() != null) {
             logger.info("Updating user with id {}", user.getId());
             userRepository.update(user);
         } else {
@@ -56,14 +56,15 @@ public class UserController {
     }
 
     @GetMapping("/new")
-    public String create() {
-        // TODO
-        return null;
+    public String create(Model model)
+    {
+        model.addAttribute("user", new User());
+        return "user_form";
     }
 
     @GetMapping("/{id}/delete")
     public String remove(@PathVariable("id") Long id) {
-        // TODO
-        return null;
+        userRepository.delete(id);
+        return "redirect:/user";
     }
 }

@@ -1,4 +1,4 @@
-package persist;
+package ru.geekbrains.persist;
 
 public class User {
 
@@ -10,6 +10,9 @@ public class User {
 
     public User(String username) {
         this.username = username;
+    }
+
+    public User() {
     }
 
     public Long getId() {
