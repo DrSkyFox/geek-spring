@@ -11,6 +11,7 @@
         <module name="lesson02-spring-basics-chat" />
         <module name="lesson-03-spring-mvc" />
         <module name="lesson4-spring-boot" />
+        <module name="lesson5-hibernate" />
       </profile>
     </annotationProcessing>
   </component>
