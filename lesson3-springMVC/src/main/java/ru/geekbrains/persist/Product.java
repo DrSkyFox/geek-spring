@@ -1,9 +1,21 @@
 package ru.geekbrains.persist;
 
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+
 public class Product {
+
     private Long id;
+    @NotEmpty
     private String name;
+    @NotEmpty
     private String description;
+
+    @NotNull
+    @Digits(integer = 6,fraction = 2)
+    @Positive
     private Double cost;
 
     public Product(String name, String description, Double cost) {

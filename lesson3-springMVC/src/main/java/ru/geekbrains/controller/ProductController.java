@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,6 +14,8 @@ import ru.geekbrains.persist.Product;
 import ru.geekbrains.persist.ProductRepository;
 import ru.geekbrains.persist.User;
 import ru.geekbrains.persist.UserRepository;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/product")
@@ -44,8 +47,11 @@ public class ProductController {
     }
 
     @PostMapping("/update")
-    public String update(Product product) {
+    public String update(@Valid Product product, BindingResult result) {
         logger.info("Update endpoint requested");
+        if(result.hasErrors()) {
+            return "product_form";
+        }
 
         if (product.getId() != null) {
             logger.info("Updating product with id {}", product.getId());
