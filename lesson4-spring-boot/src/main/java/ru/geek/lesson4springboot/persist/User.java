@@ -1,4 +1,4 @@
-package ru.geekbrains.persist;
+package ru.geek.lesson4springboot.persist;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
