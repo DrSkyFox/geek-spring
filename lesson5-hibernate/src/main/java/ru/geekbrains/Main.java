@@ -16,11 +16,11 @@ public class Main {
 
 
 
-        System.out.println("Insert data into DB");
+//        System.out.println("Insert data into DB");
 
-        repository.insert(new Product("Lays", "Chips", 80));
-        repository.insert(new Product("J7", "Juice", 120));
-        repository.insert(new Product("Qudracopter Maverick", "Toy", 80000));
+//        repository.productSaveOrUpdate(new Product("Lays", "Chips", 80));
+//        repository.productSaveOrUpdate(new Product("J7", "Juice", 120));
+//        repository.productSaveOrUpdate(new Product("Qudracopter Maverick", "Toy", 80000));
 
         System.out.println("Find all products");
         System.out.println(repository.findAll());

@@ -34,13 +34,13 @@ public class UserRepository {
     }
 
     @Transactional
-    public void insert(User user) {
+    private void insert(User user) {
         if(user != null) {
             manager.persist(user);
         }
     }
     @Transactional
-    public void update(User user) {
+    private void update(User user) {
         if(user != null) {
             manager.merge(user);
         }

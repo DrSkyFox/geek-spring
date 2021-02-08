@@ -16,7 +16,8 @@ public class ProductRepository {
 
 
     public List<Product> findAll() {
-        return manager.createQuery("from products", Product.class).getResultList();
+        List<Product> products = manager.createQuery("from products", Product.class).getResultList();
+        return products;
     }
 
     public Product findById(long id) {
@@ -34,13 +35,13 @@ public class ProductRepository {
     }
 
 
-    public void insert(Product product) {
+    private void insert(Product product) {
         if(product !=null) {
             manager.persist(product);
         }
     }
 
-    public void update(Product product) {
+    private void update(Product product) {
         if(product !=null) {
             manager.merge(product);
         }
