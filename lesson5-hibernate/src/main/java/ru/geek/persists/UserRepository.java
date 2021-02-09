@@ -1,4 +1,4 @@
-package ru.geekbrains.persists;
+package ru.geek.persists;
 
 
 import javax.persistence.EntityManager;
@@ -17,7 +17,7 @@ public class UserRepository {
     }
 
     public List<User> findAll() {
-        return manager.createQuery(" from users", User.class).getResultList();
+        return manager.createQuery("from users u", User.class).getResultList();
     }
 
     public User findById(long id) {

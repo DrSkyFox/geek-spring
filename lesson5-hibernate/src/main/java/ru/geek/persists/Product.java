@@ -1,8 +1,6 @@
-package ru.geekbrains.persists;
+package ru.geek.persists;
 
 import javax.persistence.*;
-
-
 
 @Entity
 @Table(name = "products")

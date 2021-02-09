@@ -1,14 +1,14 @@
-package ru.geekbrains.persists;
+package ru.geek.persists;
 
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "users")
-@NamedQueries({
-        @NamedQuery(name = "userByName", query = "from User u where u.username=:username"),
-        @NamedQuery(name = "allUsers", query = "from User")
-})
+//@NamedQueries({
+//        @NamedQuery(name = "userByName", query = "from users u where u.username=:username"),
+//        @NamedQuery(name = "allUsers", query = "from users")
+//})
 public class User {
 
     @Id

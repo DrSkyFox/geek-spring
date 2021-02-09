@@ -1,10 +1,14 @@
-package ru.geekbrains;
+package ru.geek;
 
 import org.hibernate.cfg.Configuration;
-import ru.geekbrains.persists.Product;
-import ru.geekbrains.persists.ProductRepository;
+import ru.geek.persists.Product;
+import ru.geek.persists.ProductRepository;
+import ru.geek.persists.User;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import java.sql.SQLException;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
@@ -14,13 +18,15 @@ public class Main {
 
         ProductRepository repository = new ProductRepository(entityManagerFactory);
 
+        try {
+            System.out.println("Insert data into DB");
+            repository.productSaveOrUpdate(new Product("Lays", "Chips", 80));
+            repository.productSaveOrUpdate(new Product("J7", "Juice", 120));
+            repository.productSaveOrUpdate(new Product("Qudracopter Maverick", "Toy", 80000));
+        } catch (Exception e) {
 
+        }
 
-//        System.out.println("Insert data into DB");
-
-//        repository.productSaveOrUpdate(new Product("Lays", "Chips", 80));
-//        repository.productSaveOrUpdate(new Product("J7", "Juice", 120));
-//        repository.productSaveOrUpdate(new Product("Qudracopter Maverick", "Toy", 80000));
 
         System.out.println("Find all products");
         System.out.println(repository.findAll());

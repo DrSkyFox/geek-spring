@@ -1,4 +1,4 @@
-package ru.geekbrains.persists;
+package ru.geek.persists;
 
 
 import javax.persistence.EntityManager;
@@ -16,7 +16,7 @@ public class ProductRepository {
 
 
     public List<Product> findAll() {
-        List<Product> products = manager.createQuery("from products", Product.class).getResultList();
+        List<Product>  products = manager.createQuery("from products p", Product.class).getResultList();
         return products;
     }
 
