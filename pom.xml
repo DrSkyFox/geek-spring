@@ -13,6 +13,7 @@
         <module>lesson01-servletApi</module>
         <module>lesson02-spring-basics-chat</module>
         <module>lesson3-springMVC</module>
+        <module>lesson5-hibernate</module>
     </modules>
 
     <properties>

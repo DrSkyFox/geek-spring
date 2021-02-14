@@ -1,4 +1,4 @@
-package ru.geekbrains;
+package ru.geek;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -17,7 +17,7 @@ import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 
 @EnableWebMvc
-@ComponentScan("ru.geekbrains")
+@ComponentScan("ru.geek")
 @Configuration
 public class AppConfig implements WebMvcConfigurer {
 
