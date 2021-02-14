@@ -18,14 +18,14 @@ public class Main {
 
         ProductRepository repository = new ProductRepository(entityManagerFactory);
 
-        try {
-            System.out.println("Insert data into DB");
-            repository.productSaveOrUpdate(new Product("Lays", "Chips", 80));
-            repository.productSaveOrUpdate(new Product("J7", "Juice", 120));
-            repository.productSaveOrUpdate(new Product("Qudracopter Maverick", "Toy", 80000));
-        } catch (Exception e) {
-
-        }
+//        try {
+//            System.out.println("Insert data into DB");
+//            repository.productSaveOrUpdate(new Product("Lays", "Chips", 80));
+//            repository.productSaveOrUpdate(new Product("J7", "Juice", 120));
+//            repository.productSaveOrUpdate(new Product("Qudracopter Maverick", "Toy", 80000));
+//        } catch (Exception e) {
+//
+//        }
 
 
         System.out.println("Find all products");

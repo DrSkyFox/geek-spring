@@ -17,7 +17,7 @@ public class UserRepository {
     }
 
     public List<User> findAll() {
-        return manager.createQuery("from users u", User.class).getResultList();
+        return manager.createQuery("from User u", User.class).getResultList();
     }
 
     public User findById(long id) {
