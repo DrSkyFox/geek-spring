@@ -16,7 +16,7 @@ public class Customer {
     private String name;
 
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade =  CascadeType.ALL, fetch = FetchType.EAGER)
     List<LineItem> lineItems;
 
 

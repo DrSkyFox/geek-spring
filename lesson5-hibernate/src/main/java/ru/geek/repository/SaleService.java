@@ -66,11 +66,31 @@ public class SaleService extends MyRepository implements DAOInterface<LineItem> 
 //            Customer user, Product product, BigDecimal price, Integer qty, String color
             lineItems.add(new LineItem(customer, product, product.getCost(), product.getQty(), product.getColor()));
         }
-
         executeInTransaction(entityManager -> {
             lineItems.forEach(entityManager::persist);
         });
     }
+
+    public List<Product> getBoughtProductByCustomer(long id) {
+        Customer customer = executeForEntityManager(entityManager -> entityManager.find(Customer.class, id));
+        List<Product> products = new ArrayList<>();
+        for (LineItem lineItem: customer.getLineItems()
+             ) {
+            products.add(lineItem.getProduct());
+        }
+        return products;
+    }
+
+    public List<Customer> getCutomersBoughtProductById(long id) {
+        Product product = executeForEntityManager(entityManager -> entityManager.find(Product.class, id));
+        List<Customer> customers = new ArrayList<>();
+        for (LineItem lineItem: product.getLineItems()
+        ) {
+            customers.add(lineItem.getUser());
+        }
+        return customers;
+    }
+
 
     @Override
     public void delete(long id) {
@@ -81,6 +101,8 @@ public class SaleService extends MyRepository implements DAOInterface<LineItem> 
             }
         });
     }
+
+
 
     @Override
     protected <R> R executeForEntityManager(Function<EntityManager, R> function) {

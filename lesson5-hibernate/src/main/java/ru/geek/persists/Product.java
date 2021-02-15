@@ -27,7 +27,7 @@ public class Product {
     @Column(length = 9)
     private String color;
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<LineItem> lineItems;
 
 
