@@ -15,8 +15,10 @@ public class Customer {
     @Column(nullable = false, length = 36)
     private String name;
 
-    @OneToMany(mappedBy = "customer")
-    private List<Orders> orders;
+
+    @OneToMany(mappedBy = "user")
+    List<LineItem> lineItems;
+
 
     public Customer(String name) {
         this.name = name;
@@ -25,6 +27,7 @@ public class Customer {
     public Customer() {
 
     }
+
 
     public Long getId() {
         return id;
@@ -40,6 +43,14 @@ public class Customer {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<LineItem> getLineItems() {
+        return lineItems;
+    }
+
+    public void setLineItems(List<LineItem> lineItems) {
+        this.lineItems = lineItems;
     }
 
     @Override

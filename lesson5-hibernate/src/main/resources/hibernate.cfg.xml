@@ -20,9 +20,8 @@
 
         <!--   ============================== MAPPING =========================================   -->
 
-        <mapping class="ru.geek.persists.Orders" />
+        <mapping class="ru.geek.persists.LineItem" />
         <mapping class="ru.geek.persists.Customer" />
-        <mapping class="ru.geek.persists.OrderContent" />
         <mapping class="ru.geek.persists.Product" />
         <mapping class="ru.geek.persists.User" />
 
