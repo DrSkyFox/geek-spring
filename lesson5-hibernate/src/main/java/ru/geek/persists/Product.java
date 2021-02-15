@@ -1,6 +1,7 @@
 package ru.geek.persists;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "products")
@@ -19,11 +20,21 @@ public class Product {
     @Column(length = 12, nullable = false)
     private Integer cost;
 
+    @ManyToMany
+    @JoinTable(name = "order_contents",
+    joinColumns = @JoinColumn(name = "productid"),
+    inverseJoinColumns = @JoinColumn(name = "orderid"))
+    private List<OrderContent> orderContent;
+
+
+
     public Product(String name, String description, Integer cost) {
         this.name = name;
         this.description = description;
         this.cost = cost;
     }
+
+
 
     public Product() {
     }
@@ -58,6 +69,14 @@ public class Product {
 
     public void setCost(Integer cost) {
         this.cost = cost;
+    }
+
+    public List<OrderContent> getOrderContent() {
+        return orderContent;
+    }
+
+    public void setOrderContent(List<OrderContent> orderContent) {
+        this.orderContent = orderContent;
     }
 
     @Override
