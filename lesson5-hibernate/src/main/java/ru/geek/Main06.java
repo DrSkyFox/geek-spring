@@ -60,8 +60,20 @@ public class Main06 {
 //
 //
 //        orderContentDAOInterface.saveOrUpdate(new OrderContent(ordersRep.findById(1), products));
+        System.out.println(productRepository.findById(2));
 
-        productRepository.findById(2).getOrderContent().forEach(orderContent -> System.out.println(orderContent.getOrder().getCustomerID()));
+        Orders orders = new Orders(customerRepository.findById(3));
+        List<OrderContent> contentList = new ArrayList<>();
+        List<Product> products = new ArrayList<>();
+        products.add(productRepository.findById(2));
+        products.add(productRepository.findById(6));
+        products.add(productRepository.findById(7));
+        products.add(productRepository.findById(10));
+        contentList.add(new OrderContent(orders, products));
+
+        orders.setOrderContents(contentList);
+
+        ordersRep.saveOrUpdate(orders);
 
 
 
