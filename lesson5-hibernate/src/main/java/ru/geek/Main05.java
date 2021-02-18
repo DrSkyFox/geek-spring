@@ -1,16 +1,11 @@
 package ru.geek;
 
 import org.hibernate.cfg.Configuration;
-import ru.geek.persists.Product;
-import ru.geek.persists.ProductRepository;
-import ru.geek.persists.User;
+import ru.geek.repository.ProductRepository;
 
-import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import java.sql.SQLException;
-import java.util.List;
 
-public class Main {
+public class Main05 {
     public static void main(String[] args) {
         EntityManagerFactory entityManagerFactory =  new Configuration()
                 .configure("hibernate.cfg.xml")
@@ -28,24 +23,24 @@ public class Main {
 //        }
 
 
-        System.out.println("Find all products");
-        System.out.println(repository.findAll());
+//        System.out.println("Find all products");
+//        System.out.println(repository.findAll());
+//
+//        System.out.println("Change costs of product");
+//        Product product = repository.findById(2l);
+//        product.setCost(230);
+//        repository.productSaveOrUpdate(product);
+//
+//        System.out.println("Find all products after change");
+//        System.out.println(repository.findAll());
+//
+//        System.out.println("Remove product from DB");
+//        repository.delete(3l);
+//
+//        System.out.println("Find all products after delete");
+//        System.out.println(repository.findAll());
 
-        System.out.println("Change costs of product");
-        Product product = repository.findById(2l);
-        product.setCost(230);
-        repository.productSaveOrUpdate(product);
 
-        System.out.println("Find all products after change");
-        System.out.println(repository.findAll());
-
-        System.out.println("Remove product from DB");
-        repository.delete(3l);
-
-        System.out.println("Find all products after delete");
-        System.out.println(repository.findAll());
-
-        repository.close();
 
     }
 }

@@ -1,6 +1,8 @@
 package ru.geek.persists;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Table(name = "products")
@@ -17,12 +19,40 @@ public class Product {
     private String description;
 
     @Column(length = 12, nullable = false)
-    private Integer cost;
+    private BigDecimal cost;
 
-    public Product(String name, String description, Integer cost) {
+    @Column(length = 13, nullable = false)
+    private Integer qty;
+
+    @Column(length = 9)
+    private String color;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<LineItem> lineItems;
+
+
+
+
+    public Product(String name, String description, BigDecimal cost) {
         this.name = name;
         this.description = description;
         this.cost = cost;
+    }
+
+    public Product(String name, String description, BigDecimal cost, Integer qty, String color) {
+        this.name = name;
+        this.description = description;
+        this.cost = cost;
+        this.qty = qty;
+        this.color = color;
+    }
+
+    public List<LineItem> getLineItems() {
+        return lineItems;
+    }
+
+    public void setLineItems(List<LineItem> lineItems) {
+        this.lineItems = lineItems;
     }
 
     public Product() {
@@ -52,12 +82,28 @@ public class Product {
         this.description = description;
     }
 
-    public Integer getCost() {
+    public BigDecimal getCost() {
         return cost;
     }
 
-    public void setCost(Integer cost) {
+    public void setCost(BigDecimal cost) {
         this.cost = cost;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public Integer getQty() {
+        return qty;
+    }
+
+    public void setQty(Integer qty) {
+        this.qty = qty;
     }
 
     @Override
