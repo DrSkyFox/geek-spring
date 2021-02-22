@@ -37,7 +37,29 @@
         <div class="col-12">
             <a class="btn btn-primary" th:href="@{/product/new}">Add Product</a>
         </div>
+        <div class="col-12 mt-3">
+            <form class="form-inline" th:method="get">
 
+                <div class="form-group mb-2 mr-2">
+                    <label for="productFilter" class="sr-only">Username filter</label>
+                    <input type="text" class="form-control" id="productFilter" th:value="${param.productFilter}"
+                           name="productFilter" placeholder="ProductName filter">
+                </div>
+
+                <div class="form-group mb-2 mr-2">
+                    <label for="costMinFilter" class="sr-only">Age min</label>
+                    <input type="number" class="form-control" id="costMinFilter" th:value="${param.costMinFilter}"
+                           name="costMinFilter" placeholder="Cost min filter">
+                </div>
+
+                <div class="form-group mb-2 mr-2">
+                    <label for="costMaxFilter" class="sr-only">Age max</label>
+                    <input type="number" class="form-control" id="costMaxFilter" th:value="${param.costMaxFilter}"
+                           name="costMaxFilter" placeholder="Cost max filter">
+                </div>
+                <button type="submit" class="btn btn-primary mb-2">Apply</button>
+            </form>
+        </div>
         <div class="col-12">
             <table class="table table-bordered my-2">
                 <thead>
@@ -50,17 +72,19 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="product : ${product}" >
+                <tr th:each="product : ${product}">
                     <th th:text="${product.id}" scope="row">1</th>
                     <td th:text="${product.name}">Alex</td>
                     <td th:text="${product.description}">Alex</td>
                     <td th:text="${product.cost}">Alex</td>
                     <td>
-                        <a class="btn btn-success" th:href="@{/product/{id}(id = ${product.id})}"><i class="fas fa-edit"></i></a>
-                        <form class="d-inline" th:method="delete" th:action="@{/product/{id}/delete(id = ${product.id})}">
+                        <a class="btn btn-success" th:href="@{/product/{id}(id = ${product.id})}"><i
+                                class="fas fa-edit"></i></a>
+                        <form class="d-inline" th:method="delete"
+                              th:action="@{/product/{id}/delete(id = ${product.id})}">
                             <button class="btn btn-danger" type="submit"><i class="far fa-trash-alt"></i></button>
                         </form>
-<!--                        <a class="btn btn-danger" th:href="@{/product/{id}/delete(id = ${product.id})}"><i class="far fa-trash-alt"></i></a>-->
+                        <!--                        <a class="btn btn-danger" th:href="@{/product/{id}/delete(id = ${product.id})}"><i class="far fa-trash-alt"></i></a>-->
                     </td>
                 </tr>
                 </tbody>

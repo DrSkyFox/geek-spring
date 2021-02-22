@@ -52,7 +52,7 @@ public class UserController {
     }
 
     @PostMapping("/update")
-    public String update(@Valid UserRepr user, BindingResult result) {
+    public String update(@Valid @ModelAttribute("user") UserRepr user, BindingResult result) {
         logger.info("Update endpoint requested");
         //метод возвращающий ошибки, если есть
         if(result.hasErrors()) {
