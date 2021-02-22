@@ -49,7 +49,7 @@ public class ProductServiceImpl implements ProductService{
             specification = specification.and(ProductSpecification.maxCost(maxCost));
         }
 
-        return productRepository.findAll(specification, PageRequest.of(page,size, Sort.by(sortField))).map(ProductRepr::new);
+        return productRepository.findAll(specification, PageRequest.of(page,size, Sort.by(Sort.Direction.DESC,sortField))).map(ProductRepr::new);
     }
 
 
