@@ -3,6 +3,7 @@ package ru.geek.lesson4springboot.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,6 +12,8 @@ import ru.geek.lesson4springboot.service.UserRepr;
 import ru.geek.lesson4springboot.service.UserService;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/user")
@@ -20,15 +23,24 @@ public class UserController {
 
     private final UserService userService;
 
+
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
     @GetMapping
-    public String listPage(Model model) {
+    public String listPage(Model model,
+                           @RequestParam("usernameFilter") Optional<String> usernameFilter) {
         logger.info("List page requested");
-        model.addAttribute("users", userService.findAll());
+
+        List<UserRepr> users;
+        if (usernameFilter.isPresent() && !usernameFilter.get().isBlank()) {
+            users = userService.findWithFilter(usernameFilter.get());
+        } else {
+            users = userService.findAll();
+        }
+        model.addAttribute("users", users);
         return "user";
     }
 

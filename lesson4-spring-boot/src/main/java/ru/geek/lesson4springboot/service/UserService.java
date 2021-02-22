@@ -13,6 +13,7 @@ public interface UserService {
 
     void save(UserRepr user);
 
+    List<UserRepr> findWithFilter(String usernameFilter);
 
     void delete(long id);
 

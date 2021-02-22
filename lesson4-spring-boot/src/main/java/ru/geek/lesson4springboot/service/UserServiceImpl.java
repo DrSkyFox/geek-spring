@@ -26,6 +26,14 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public List<UserRepr> findWithFilter(String usernameFilter) {
+        return userRepository.findUserByUsernameLike(usernameFilter).stream()
+                .map(UserRepr::new)
+                .collect(Collectors.toList());
+    }
+
+
+    @Override
     public Optional<UserRepr> findById(long id) {
         return userRepository.findById(id).map(UserRepr::new);
     }
