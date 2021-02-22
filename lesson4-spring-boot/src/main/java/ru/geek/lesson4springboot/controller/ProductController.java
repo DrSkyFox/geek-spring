@@ -4,10 +4,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import ru.geek.lesson4springboot.service.ProductRepr;
 import ru.geek.lesson4springboot.service.ProductService;
 
@@ -32,21 +34,19 @@ public class ProductController {
     public String listPage(Model model,
                            @RequestParam("productFilter") Optional<String> productFilter,
                            @RequestParam("costMinFilter") Optional<Double> costMinFilter,
-                           @RequestParam("costMaxFilter") Optional<Double> costMaxFilter) {
-        logger.info(String.format("List page requested. Parameters of filter: " +
-                        "\n productFilter = %s," +
-                        "\n costMinFilter =%s," +
-                        "\n costMaxFilter = %s",
-                productFilter,
-                costMinFilter,
-                costMaxFilter));
+                           @RequestParam("costMaxFilter") Optional<Double> costMaxFilter,
+                           @RequestParam("page") Optional<Integer> page,
+                           @RequestParam("size") Optional<Integer> size,
+                           @RequestParam("sortField") Optional<String> sortField) {
+        logger.info("List page requested. Parameters of filter: productFilter {}, costMinFilter {}, costMaxFilter {}, page {}, size {}, sortField {}", productFilter, costMinFilter,costMaxFilter, page,size,sortField);
 
-        List<ProductRepr> product = productService.findWithFilter(
+        Page<ProductRepr> product = productService.findWithFilter(
                 productFilter.filter(s -> !s.isBlank()).orElse(null),
                 costMinFilter.orElse(null),
-                costMaxFilter.orElse(null)
-        );
-
+                costMaxFilter.orElse(null),
+                page.orElse(1) - 1,
+                size.orElse(3),
+                sortField.orElse("id"));
         model.addAttribute("product", product);
         return "product";
     }
@@ -82,6 +82,13 @@ public class ProductController {
     public String remove(@PathVariable("id") Long id) {
         productService.delete(id);
         return "redirect:/product";
+    }
+
+    @ExceptionHandler
+    public ModelAndView notFoundExceptionHandler(NotFoundException ex) {
+        ModelAndView mav = new ModelAndView("not_found");
+        mav.setStatus(HttpStatus.NOT_FOUND);
+        return mav;
     }
 
 

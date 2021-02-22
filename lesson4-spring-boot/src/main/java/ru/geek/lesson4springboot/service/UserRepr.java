@@ -1,5 +1,6 @@
 package ru.geek.lesson4springboot.service;
 
+import com.sun.istack.NotNull;
 import ru.geek.lesson4springboot.persist.User;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -19,6 +20,9 @@ public class UserRepr {
     @NotEmpty
     private String matchingPassword;
 
+    @NotNull
+    private Integer age;
+
     @Email
     private String email;
 
@@ -32,6 +36,7 @@ public class UserRepr {
         this.username = user.getUsername();
         this.password = user.getPassword();
         this.email = user.getEmail();
+        this.age = user.getAge();
     }
 
     public UserRepr() {
@@ -77,4 +82,11 @@ public class UserRepr {
         this.email = email;
     }
 
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
 }

@@ -2,35 +2,13 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"/>
-    <title>EShop application</title>
+    <nav th:replace="fragments/NavigationBar.html :: head"/>
 </head>
 
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">EShop</a>
+<nav th:replace="fragments/NavigationBar.html :: navbar"/>
 
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="#">List</a>
-            </li>
-        </ul>
-    </div>
-</nav>
 
 <div class="container">
     <div class="row py-2">
@@ -40,7 +18,7 @@
 
         <div class="col-12 mt-3">
             <form class="form-inline" th:method="get">
-<!--                <div class="form-group mx-sm-3 mb-2 mr-2">-->
+                <!--                <div class="form-group mx-sm-3 mb-2 mr-2">-->
                 <div class="form-group mb-2 mr-2">
                     <label for="usernameFilter" class="sr-only">Username filter</label>
                     <input type="text" class="form-control" id="usernameFilter" th:value="${param.usernameFilter}"
@@ -55,40 +33,71 @@
             <table class="table table-bordered my-2">
                 <thead>
                 <tr>
-                    <th scope="col">Id</th>
-                    <th scope="col">Пользователь</th>
-                    <th scope="col">Дейтсвия</th>
+                    <th scope="col" th:replace="fragments/sort_user :: sort_header ('Id', 'id')" />
+                    <th scope="col" th:replace="fragments/sort_user :: sort_header ('Username', 'username')" />
+                    <th scope="col" th:replace="fragments/sort_user :: sort_header ('Age', 'age')" />
+                    <th scope="col">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="user : ${users}" >
+                <tr th:each="user : ${users}">
                     <th th:text="${user.id}" scope="row">1</th>
                     <td th:text="${user.username}">Alex</td>
+                    <td th:text="${user.age}">21</td>
                     <td>
                         <a class="btn btn-success" th:href="@{/user/{id}(id = ${user.id})}"><i class="fas fa-edit"></i></a>
-<!--                        форма для удлания записи. отправляет запрос типа post-->
+                        <!--                        форма для удлания записи. отправляет запрос типа post-->
                         <form class="d-inline" th:method="delete" th:action="@{/user/{id}(id = ${user.id})}">
                             <button class="btn btn-danger" type="submit"><i class="far fa-trash-alt"></i></button>
                         </form>
-<!--                        <a class="btn btn-danger" th:href="@{/user/{id}/delete(id = ${user.id})}"><i class="far fa-trash-alt"></i></a>-->
+                        <!--                        <a class="btn btn-danger" th:href="@{/user/{id}/delete(id = ${user.id})}"><i class="far fa-trash-alt"></i></a>-->
                     </td>
+                </tr>
+                <tr th:unless="${users.hasContent()}">
+                    <td colspan="4">No data</td>
                 </tr>
                 </tbody>
             </table>
         </div>
+        <div class="col-12">
+            <nav aria-label="...">
+                <ul class="pagination">
+                    <li th:classappend="${users.number eq 0} ? 'disabled'">
+                        <a th:if="${not (users.number eq 0)}" th:href="@{/user(page=${users.number},
+                        size=${users.size},
+                        usernameFilter=${param.usernameFilter},
+                        minAge=${param.minAge},
+                         maxAge=${param.maxAge}, sortField=${param.sortField})}"
+                           class="page-link">Previous</a>
+                        <!--                        <a th:if="${product.number != 1}" href="javascript:void(0);" class="page-link">Previous</a>-->
+                    </li>
+
+                    <li th:each="num: ${#numbers.sequence(1, users.totalPages)}"
+                        th:classappend="${num == users.number + 1} ? 'active'"
+                        class="page-item">
+                        <a th:text="${num}"
+                           th:href="@{/user(page=${num}, size=${users.size},
+                           usernameFilter=${param.usernameFilter}, minAge=${param.minAge}, maxAge=${param.maxAge}, sortField=${param.sortField})}"
+                           class="page-link">1 <span th:if="${num == users.number + 1}" class="sr-only">(current)</span></a>
+                    </li>
+                    <li th:classappend="${users.number eq users.totalPages} ? 'disabled' : ''">
+                        <a th:if="${not (users.number+1 eq users.totalPages)}" th:href="@{/user(page=${(users.number+2)},
+                        size=${users.size},
+                         usernameFilter=${param.usernameFilter},
+                          minAge=${param.minAge},
+                           maxAge=${param.maxAge}, sortField=${param.sortField})}" class="page-link">Next</a>
+                        <!--                        <a th:if="${product.number == product.totalPages}" href="javascript:void(0);" class="page-link">Next</a>-->
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+
     </div>
 </div>
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
+<th:block th:replace="fragments/footer.html :: scripts"/>
 </body>
 </html>

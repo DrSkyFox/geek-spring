@@ -4,15 +4,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import ru.geek.lesson4springboot.service.UserRepr;
 import ru.geek.lesson4springboot.service.UserService;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -31,15 +33,24 @@ public class UserController {
 
     @GetMapping
     public String listPage(Model model,
-                           @RequestParam("usernameFilter") Optional<String> usernameFilter) {
+                           @RequestParam("usernameFilter") Optional<String> usernameFilter,
+                           @RequestParam("ageMinFilter") Optional<Integer> ageMinFilter,
+                           @RequestParam("ageMaxFilter") Optional<Integer> ageMaxFilter,
+                           @RequestParam("page") Optional<Integer> page,
+                           @RequestParam("size") Optional<Integer> size,
+                           @RequestParam("sortField") Optional<String> sortField
+                           ) {
         logger.info("List page requested");
 
-        List<UserRepr> users;
-        if (usernameFilter.isPresent() && !usernameFilter.get().isBlank()) {
-            users = userService.findWithFilter(usernameFilter.get());
-        } else {
-            users = userService.findAll();
-        }
+        Page<UserRepr> users = userService.findWithFilter(
+                usernameFilter.filter(s -> !s.isBlank()).orElse(null),
+                ageMinFilter.orElse(null),
+                ageMaxFilter.orElse(null),
+                page.orElse(1) - 1,
+                size.orElse(3),
+                sortField.orElse("id")
+        );
+
         model.addAttribute("users", users);
         return "user";
     }
@@ -83,5 +94,12 @@ public class UserController {
         logger.info("User delete request");
         userService.delete(id);
         return "redirect:/user";
+    }
+
+    @ExceptionHandler
+    public ModelAndView notFoundExceptionHandler(NotFoundException ex) {
+        ModelAndView mav = new ModelAndView("not_found");
+        mav.setStatus(HttpStatus.NOT_FOUND);
+        return mav;
     }
 }

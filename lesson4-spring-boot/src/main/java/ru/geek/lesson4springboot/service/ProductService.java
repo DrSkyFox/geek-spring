@@ -9,12 +9,11 @@ public interface ProductService {
 
     List<ProductRepr> findAll();
 
-
     Optional<ProductRepr> findById(long id);
 
     void save(ProductRepr product);
 
-    List<ProductRepr> findWithFilter(String productFilter, Double minCost, Double maxCost);
+    Page<ProductRepr> findWithFilter(String productFilter, Double minCost, Double maxCost, Integer page, Integer size, String sortField);
 
     void delete(long id);
 }
