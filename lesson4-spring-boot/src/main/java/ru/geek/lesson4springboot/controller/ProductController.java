@@ -33,8 +33,14 @@ public class ProductController {
                            @RequestParam("productFilter") Optional<String> productFilter,
                            @RequestParam("costMinFilter") Optional<Double> costMinFilter,
                            @RequestParam("costMaxFilter") Optional<Double> costMaxFilter) {
-        logger.info(String.format("List page requested. Paramets of filter: productFilter = %s, \n costMinFilter =%s, \n costMaxFilter = %s",
-                productFilter, costMinFilter, costMaxFilter));
+        logger.info(String.format("List page requested. Parameters of filter: " +
+                        "\n productFilter = %s," +
+                        "\n costMinFilter =%s," +
+                        "\n costMaxFilter = %s",
+                productFilter,
+                costMinFilter,
+                costMaxFilter));
+
         List<ProductRepr> product = productService.findWithFilter(
                 productFilter.filter(s -> !s.isBlank()).orElse(null),
                 costMinFilter.orElse(null),
