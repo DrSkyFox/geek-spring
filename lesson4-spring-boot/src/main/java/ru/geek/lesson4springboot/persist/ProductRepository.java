@@ -1,8 +1,13 @@
 package ru.geek.lesson4springboot.persist;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
+import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -10,39 +15,19 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Repository
-public class ProductRepository {
+public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    private Map<Long, Product> productMap = new ConcurrentHashMap<>();
+    List<Product> findProductByNameLike(String productName);
 
-    private AtomicLong identity = new AtomicLong(0);
+    @Query("select p from Product p " +
+            "where (p.name like :productname or :productname is null) and " +
+            "      (p.cost >= :minCost or :minCost is null) and " +
+            "      (p.cost <= :maxCost or :maxCost is null)")
+    List<Product> findWithFilter(@Param("productname") String productFilter,
+                              @Param("minCost") Double minCost,
+                              @Param("maxCost") Double maxCost);
 
-    @PostConstruct
-    public void init() {
-        this.insert(new Product("apple", "fruit", 100.0));
-        this.insert(new Product("orange", "fruit", 120.0));
-        this.insert(new Product("Guitar", "instrument music", 100000.0));
-    }
 
-    public List<Product> findAll() {
-        return new ArrayList<>(productMap.values());
-    }
 
-    public Product findById(long id) {
-        return productMap.get(id);
-    }
-
-    public void insert(Product product) {
-        long id = identity.incrementAndGet();
-        product.setId(id);
-        productMap.put(id, product);
-    }
-
-    public void update(Product product) {
-        productMap.put(product.getId(), product);
-    }
-
-    public void delete(long id) {
-        productMap.remove(id);
-    }
 
 }
