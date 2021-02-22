@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.geek.lesson4springboot.persist.Product;
 import ru.geek.lesson4springboot.persist.ProductRepository;
+import ru.geek.lesson4springboot.service.ProductService;
 
 import javax.validation.Valid;
 
@@ -21,18 +22,18 @@ public class ProductController {
 
     private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 
-    private ProductRepository productRepository;
+    private final ProductService productService;
 
     @Autowired
-    public ProductController(ProductRepository productRepository) {
-        this.productRepository = productRepository;
+    public ProductController(ProductService productService) {
+        this.productService = productService;
     }
 
     @GetMapping
     public String listPage(Model model) {
         logger.info("List page requested");
 
-        model.addAttribute("product", productRepository.findAll());
+        model.addAttribute("product", productService.findAll());
         return "product";
     }
 
@@ -40,7 +41,7 @@ public class ProductController {
     public String editPage(@PathVariable("id") Long id, Model model) {
         logger.info("Edit page for id {} requested", id);
 
-        model.addAttribute("product", productRepository.findById(id));
+        model.addAttribute("product", productService.findById(id));
         return "product_form";
     }
 
@@ -53,10 +54,10 @@ public class ProductController {
 
         if (product.getId() != null) {
             logger.info("Updating product with id {}", product.getId());
-            productRepository.update(product);
+            productService.update(product);
         } else {
             logger.info("Creating new product");
-            productRepository.insert(product);
+            productService.insert(product);
         }
         return "redirect:/product";
     }
@@ -69,7 +70,7 @@ public class ProductController {
 
     @GetMapping("/{id}/delete")
     public String remove(@PathVariable("id") Long id) {
-        productRepository.delete(id);
+        productService.delete(id);
         return "redirect:/product";
     }
 }

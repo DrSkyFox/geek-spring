@@ -1,23 +1,23 @@
-package ru.geek.lesson4springboot.persist;
+package ru.geek.lesson4springboot.service;
 
-import ru.geek.lesson4springboot.service.ProductRepr;
+import ru.geek.lesson4springboot.persist.Product;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
-@Entity
-@Table(name = "product")
-public class Product {
+//DTO Product
+public class ProductRepr {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
 
     @NotEmpty
-    @Column(nullable = false, unique = true)
     private String name;
 
     @NotEmpty
@@ -26,23 +26,22 @@ public class Product {
     @NotNull
     @Digits(integer = 6,fraction = 2)
     @Positive
-    @Column(nullable = false)
     private Double cost;
 
-    public Product(String name, String description, Double cost) {
+    public ProductRepr(String name, String description, Double cost) {
         this.name = name;
         this.description = description;
         this.cost = cost;
     }
 
-    public Product() {
-    }
-
-    public Product(ProductRepr product) {
+    public ProductRepr(Product product) {
         this.id = product.getId();
         this.name = product.getName();
         this.description = product.getDescription();
         this.cost = product.getCost();
+    }
+
+    public ProductRepr() {
     }
 
     public Long getId() {

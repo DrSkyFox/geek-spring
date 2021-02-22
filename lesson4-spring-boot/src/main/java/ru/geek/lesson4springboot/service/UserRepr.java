@@ -1,41 +1,40 @@
-package ru.geek.lesson4springboot.persist;
+package ru.geek.lesson4springboot.service;
 
-import ru.geek.lesson4springboot.service.UserRepr;
-
-import javax.persistence.*;
+import ru.geek.lesson4springboot.persist.User;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
-@Entity
-@Table(name = "users")
-public class User {
+//DTO
+public class UserRepr {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
 
-    @Column(unique = true, nullable = false)
+    @NotEmpty
     private String username;
 
-
-    @Column(nullable = false, length = 512)
+    @NotEmpty
     private String password;
 
+    @NotEmpty
+    private String matchingPassword;
+
+    @Email
     private String email;
 
 
-    public User(String username) {
+    public UserRepr(String username) {
         this.username = username;
     }
 
-    public User() {
-    }
-
-    public User(UserRepr user) {
+    public UserRepr(User user) {
         this.id = user.getId();
         this.username = user.getUsername();
         this.password = user.getPassword();
         this.email = user.getEmail();
+    }
+
+    public UserRepr() {
     }
 
     public Long getId() {
@@ -62,6 +61,14 @@ public class User {
         this.password = password;
     }
 
+    public String getMatchingPassword() {
+        return matchingPassword;
+    }
+
+    public void setMatchingPassword(String matchingPassword) {
+        this.matchingPassword = matchingPassword;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -69,6 +76,5 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
-
 
 }

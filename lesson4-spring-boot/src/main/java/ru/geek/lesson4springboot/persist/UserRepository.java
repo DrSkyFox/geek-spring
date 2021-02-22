@@ -1,48 +1,39 @@
 package ru.geek.lesson4springboot.persist;
 
 import org.springframework.stereotype.Repository;
-
-import javax.annotation.PostConstruct;
-import java.util.ArrayList;
+import org.springframework.transaction.annotation.Transactional;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicLong;
+
 
 @Repository
 public class UserRepository {
 
-    private Map<Long, User> userMap = new ConcurrentHashMap<>();
-
-    private AtomicLong identity = new AtomicLong(0);
-
-    @PostConstruct
-    public void init() {
-        this.insert(new User("Пользователь 1"));
-        this.insert(new User("user2"));
-        this.insert(new User("user3"));
-    }
+    @PersistenceContext
+    private EntityManager em;
 
     public List<User> findAll() {
-        return new ArrayList<>(userMap.values());
+        return em.createQuery("from User", User.class).getResultList();
     }
 
     public User findById(long id) {
-        return userMap.get(id);
+        return em.find(User.class, id);
     }
+
 
     public void insert(User user) {
-        long id = identity.incrementAndGet();
-        user.setId(id);
-        userMap.put(id, user);
+        em.persist(user);
     }
+
 
     public void update(User user) {
-        userMap.put(user.getId(), user);
+        em.refresh(user);
     }
 
+
     public void delete(long id) {
-        userMap.remove(id);
+        em.createQuery("delete fron User where id = :id").setParameter("id", id).executeUpdate();
     }
 
 }

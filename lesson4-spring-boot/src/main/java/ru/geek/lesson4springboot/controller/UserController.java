@@ -9,6 +9,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.geek.lesson4springboot.persist.User;
 import ru.geek.lesson4springboot.persist.UserRepository;
+import ru.geek.lesson4springboot.service.UserRepr;
+import ru.geek.lesson4springboot.service.UserService;
 
 import javax.validation.Valid;
 
@@ -18,18 +20,18 @@ public class UserController {
 
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
-    private UserRepository userRepository;
+    private final UserService userService;
 
     @Autowired
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping
     public String listPage(Model model) {
         logger.info("List page requested");
 
-        model.addAttribute("users", userRepository.findAll());
+        model.addAttribute("users", userService.findAll());
         return "user";
     }
 
@@ -37,12 +39,12 @@ public class UserController {
     public String editPage(@PathVariable("id") Long id, Model model) {
         logger.info("Edit page for id {} requested", id);
 
-        model.addAttribute("user", userRepository.findById(id));
+        model.addAttribute("user", userService.findById(id));
         return "user_form";
     }
 
     @PostMapping("/update")
-    public String update(@Valid User user, BindingResult result) {
+    public String update(@Valid UserRepr user, BindingResult result) {
         logger.info("Update endpoint requested");
         //метод возвращающий ошибки, если есть
         if(result.hasErrors()) {
@@ -58,10 +60,10 @@ public class UserController {
 
         if (user.getId() != null) {
             logger.info("Updating user with id {}", user.getId());
-            userRepository.update(user);
+            userService.update(user);
         } else {
             logger.info("Creating new user");
-            userRepository.insert(user);
+            userService.insert(user);
         }
         return "redirect:/user";
     }
@@ -76,7 +78,7 @@ public class UserController {
     @DeleteMapping("/{id}")
     public String remove(@PathVariable("id") Long id) {
         logger.info("User delete request");
-        userRepository.delete(id);
+        userService.delete(id);
         return "redirect:/user";
     }
 }
