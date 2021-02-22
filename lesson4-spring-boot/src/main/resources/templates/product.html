@@ -42,19 +42,10 @@
             <table class="table table-bordered my-2">
                 <thead>
                 <tr>
-                    <th scope="col">Id
-                        <a th:href="@{/product(page=${(param.page)},size=${param.size}, productFilter=${param.productFilter}, minCost=${param.minCost}, maxCost=${param.maxCost}, sortField=${'id'})}">
-                        <i class="fa fa-sort-down"></i></a>
-                    </th>
-                    <th scope="col">Товар
-                        <a th:href="@{/product(page=${(param.page)},size=${param.size}, productFilter=${param.productFilter}, minCost=${param.minCost}, maxCost=${param.maxCost}, sortField=${'name'})}"><i class="fa fa-sort-down"></i></a>
-                    </th>
-                    <th scope="col">Описание
-                        <a th:href="@{/product(page=${(param.page)},size=${param.size}, productFilter=${param.productFilter}, minCost=${param.minCost}, maxCost=${param.maxCost}, sortField=${'description'})}"><i class="fa fa-sort-down"></i></a>
-                    </th>
-                    <th scope="col">Цена
-                        <a th:href="@{/product(page=${(param.page)},size=${param.size}, productFilter=${param.productFilter}, minCost=${param.minCost}, maxCost=${param.maxCost}, sortField=${'cost'})}"><i class="fa fa-sort-down"></i></a>
-                    </th>
+                    <th scope="col" th:replace="fragments/sort_product :: sort_header ('Id', 'id')" />
+                    <th scope="col" th:replace="fragments/sort_product :: sort_header ('Товар', 'name')" />
+                    <th scope="col" th:replace="fragments/sort_product :: sort_header ('Описание', 'description')" />
+                    <th scope="col" th:replace="fragments/sort_product :: sort_header ('Цена', 'cost')" />
                     <th scope="col">Действия</th>
                 </tr>
                 </thead>

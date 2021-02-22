@@ -33,15 +33,9 @@
             <table class="table table-bordered my-2">
                 <thead>
                 <tr>
-                    <th scope="col">Id
-                        <a href="#"><i class="fa fa-sort-down"></i></a>
-                    </th>
-                    <th scope="col">Username
-                        <a href="#"><i class="fa fa-sort-down"></i></a>
-                    </th>
-                    <th scope="col">Age
-                        <a href="#"><i class="fa fa-sort-down"></i></a>
-                    </th>
+                    <th scope="col" th:replace="fragments/sort_user :: sort_header ('Id', 'id')" />
+                    <th scope="col" th:replace="fragments/sort_user :: sort_header ('Username', 'username')" />
+                    <th scope="col" th:replace="fragments/sort_user :: sort_header ('Age', 'age')" />
                     <th scope="col">Actions</th>
                 </tr>
                 </thead>
@@ -71,9 +65,9 @@
                     <li th:classappend="${users.number eq 0} ? 'disabled'">
                         <a th:if="${not (users.number eq 0)}" th:href="@{/user(page=${users.number},
                         size=${users.size},
-                        productFilter=${param.usernameFilter},
-                        minCost=${param.minAge},
-                         maxCost=${param.maxAge})}"
+                        usernameFilter=${param.usernameFilter},
+                        minAge=${param.minAge},
+                         maxAge=${param.maxAge}, sortField=${param.sortField})}"
                            class="page-link">Previous</a>
                         <!--                        <a th:if="${product.number != 1}" href="javascript:void(0);" class="page-link">Previous</a>-->
                     </li>
@@ -83,15 +77,15 @@
                         class="page-item">
                         <a th:text="${num}"
                            th:href="@{/user(page=${num}, size=${users.size},
-                           usernameFilter=${param.usernameFilter}, minAge=${param.minAge}, maxAge=${param.maxAge})}"
+                           usernameFilter=${param.usernameFilter}, minAge=${param.minAge}, maxAge=${param.maxAge}, sortField=${param.sortField})}"
                            class="page-link">1 <span th:if="${num == users.number + 1}" class="sr-only">(current)</span></a>
                     </li>
                     <li th:classappend="${users.number eq users.totalPages} ? 'disabled' : ''">
                         <a th:if="${not (users.number+1 eq users.totalPages)}" th:href="@{/user(page=${(users.number+2)},
                         size=${users.size},
-                         productFilter=${param.usernameFilter},
-                          minCost=${param.minAge},
-                           maxCost=${param.maxAge})}" class="page-link">Next</a>
+                         usernameFilter=${param.usernameFilter},
+                          minAge=${param.minAge},
+                           maxAge=${param.maxAge}, sortField=${param.sortField})}" class="page-link">Next</a>
                         <!--                        <a th:if="${product.number == product.totalPages}" href="javascript:void(0);" class="page-link">Next</a>-->
                     </li>
                 </ul>

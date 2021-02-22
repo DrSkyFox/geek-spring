@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import ru.geek.lesson4springboot.service.UserRepr;
 import ru.geek.lesson4springboot.service.UserService;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Optional;
 
@@ -36,7 +37,8 @@ public class UserController {
                            @RequestParam("ageMinFilter") Optional<Integer> ageMinFilter,
                            @RequestParam("ageMaxFilter") Optional<Integer> ageMaxFilter,
                            @RequestParam("page") Optional<Integer> page,
-                           @RequestParam("size") Optional<Integer> size
+                           @RequestParam("size") Optional<Integer> size,
+                           @RequestParam("sortField") Optional<String> sortField
                            ) {
         logger.info("List page requested");
 
@@ -45,8 +47,10 @@ public class UserController {
                 ageMinFilter.orElse(null),
                 ageMaxFilter.orElse(null),
                 page.orElse(1) - 1,
-                size.orElse(3)
+                size.orElse(3),
+                sortField.orElse("id")
         );
+
         model.addAttribute("users", users);
         return "user";
     }

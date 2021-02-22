@@ -17,7 +17,7 @@ public interface UserService {
     List<UserRepr> findWithFilter(String usernameFilter);
 
     Page<UserRepr> findWithFilter(String usernameFilter, Integer minAge, Integer maxAge,
-                                  Integer page, Integer size);
+                                  Integer page, Integer size, String sortField);
 
     void delete(long id);
 
