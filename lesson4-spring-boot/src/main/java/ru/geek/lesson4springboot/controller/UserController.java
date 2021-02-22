@@ -7,8 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.geek.lesson4springboot.persist.User;
-import ru.geek.lesson4springboot.persist.UserRepository;
 import ru.geek.lesson4springboot.service.UserRepr;
 import ru.geek.lesson4springboot.service.UserService;
 
@@ -30,7 +28,6 @@ public class UserController {
     @GetMapping
     public String listPage(Model model) {
         logger.info("List page requested");
-
         model.addAttribute("users", userService.findAll());
         return "user";
     }
@@ -38,8 +35,7 @@ public class UserController {
     @GetMapping("/{id}")
     public String editPage(@PathVariable("id") Long id, Model model) {
         logger.info("Edit page for id {} requested", id);
-
-        model.addAttribute("user", userService.findById(id));
+        model.addAttribute("user", userService.findById(id).orElseThrow(NotFoundException::new));
         return "user_form";
     }
 
@@ -57,21 +53,16 @@ public class UserController {
             logger.info("Password not matching");
             return "user_form";
         }
+        logger.info("Updating user with id {}", user.getId());
+        userService.save(user);
 
-        if (user.getId() != null) {
-            logger.info("Updating user with id {}", user.getId());
-            userService.update(user);
-        } else {
-            logger.info("Creating new user");
-            userService.insert(user);
-        }
         return "redirect:/user";
     }
 
     @GetMapping("/new")
     public String create(Model model)
     {
-        model.addAttribute("user", new User());
+        model.addAttribute("user", new UserRepr());
         return "user_form";
     }
 

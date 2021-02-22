@@ -7,6 +7,7 @@ import ru.geek.lesson4springboot.persist.Product;
 import ru.geek.lesson4springboot.persist.ProductRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,26 +26,19 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public ProductRepr findById(long id) {
-        Product product = productRepository.findById(id);
-        if(product != null) {
-            return new ProductRepr(product);
-        }
-        return null;
+    public Optional<ProductRepr> findById(long id) {
+        return productRepository.findById(id).map(ProductRepr::new);
     }
     @Transactional
     @Override
-    public void insert(ProductRepr product) {
-        productRepository.insert(new Product(product));
+    public void save(ProductRepr product) {
+        productRepository.save(new Product(product));
     }
-    @Transactional
-    @Override
-    public void update(ProductRepr product) {
-        productRepository.update(new Product(product));
-    }
+
     @Transactional
     @Override
     public void delete(long id) {
-        productRepository.delete(id);
+        productRepository.deleteById(id);
     }
+
 }

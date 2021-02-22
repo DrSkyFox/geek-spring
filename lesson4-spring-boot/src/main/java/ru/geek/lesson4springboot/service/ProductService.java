@@ -1,16 +1,17 @@
 package ru.geek.lesson4springboot.service;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ProductService {
 
     List<ProductRepr> findAll();
 
-    ProductRepr findById(long id);
 
-    void insert(ProductRepr product);
+    Optional<ProductRepr> findById(long id);
 
-    void update(ProductRepr product);
+    void save(ProductRepr product);
+
 
     void delete(long id);
 }

@@ -42,7 +42,7 @@ public class ProductController {
     public String editPage(@PathVariable("id") Long id, Model model) {
         logger.info("Edit page for id {} requested", id);
 
-        model.addAttribute("product", productService.findById(id));
+        model.addAttribute("product", productService.findById(id).orElseThrow(NotFoundException::new));
         return "product_form";
     }
 
@@ -53,19 +53,15 @@ public class ProductController {
             return "product_form";
         }
 
-        if (product.getId() != null) {
-            logger.info("Updating product with id {}", product.getId());
-            productService.update(product);
-        } else {
-            logger.info("Creating new product");
-            productService.insert(product);
-        }
+        logger.info("Updating product with id {}", product.getId());
+        productService.save(product);
+
         return "redirect:/product";
     }
 
     @GetMapping("/new")
     public String create(Model model) {
-        model.addAttribute("product", new Product());
+        model.addAttribute("product", new ProductRepr());
         return "product_form";
     }
 

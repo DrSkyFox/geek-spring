@@ -7,6 +7,7 @@ import ru.geek.lesson4springboot.persist.User;
 import ru.geek.lesson4springboot.persist.UserRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,27 +26,19 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserRepr findById(long id) {
-        User user = userRepository.findById(id);
-        if(user != null) {
-            return new UserRepr(user);
-        }
-        return null;
+    public Optional<UserRepr> findById(long id) {
+        return userRepository.findById(id).map(UserRepr::new);
     }
 
     @Transactional
     @Override
-    public void insert(UserRepr user) {
-        userRepository.insert(new User(user));
+    public void save(UserRepr user) {
+        userRepository.save(new User(user));
     }
-    @Transactional
-    @Override
-    public void update(UserRepr user) {
-        userRepository.update(new User(user));
-    }
+
     @Transactional
     @Override
     public void delete(long id) {
-        userRepository.delete(id);
+        userRepository.deleteById(id);
     }
 }
