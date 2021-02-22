@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.geek.lesson4springboot.persist.Product;
 import ru.geek.lesson4springboot.persist.ProductRepository;
+import ru.geek.lesson4springboot.service.ProductRepr;
 import ru.geek.lesson4springboot.service.ProductService;
 
 import javax.validation.Valid;
@@ -46,7 +47,7 @@ public class ProductController {
     }
 
     @PostMapping("/update")
-    public String update(@Valid Product product, BindingResult result) {
+    public String update(@Valid ProductRepr product, BindingResult result) {
         logger.info("Update endpoint requested");
         if(result.hasErrors()) {
             return "product_form";
