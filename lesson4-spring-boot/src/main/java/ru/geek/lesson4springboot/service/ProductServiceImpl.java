@@ -2,10 +2,13 @@ package ru.geek.lesson4springboot.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.geek.lesson4springboot.persist.Product;
 import ru.geek.lesson4springboot.persist.ProductRepository;
+import ru.geek.lesson4springboot.specifications.ProductSpecification;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,10 +35,19 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public List<ProductRepr> findWithFilter(String productFilter, Double minCost, Double maxCost) {
-        return productRepository.findWithFilter(productFilter, minCost, maxCost).stream()
-                .map(ProductRepr::new)
-                .collect(Collectors.toList());
+    public Page<ProductRepr> findWithFilter(String productFilter, Double minCost, Double maxCost, Integer page, Integer size) {
+        Specification<Product> specification = Specification.where(null);
+        if(productFilter != null && !productFilter.isBlank()) {
+            specification =specification.and(ProductSpecification.productLike(productFilter));
+        }
+        if(minCost != null) {
+            specification = specification.and(ProductSpecification.minCost(minCost));
+        }
+        if(maxCost != null) {
+            specification = specification.and(ProductSpecification.maxCost(maxCost));
+        }
+
+        return productRepository.findAll(specification, PageRequest.of(page,size)).map(ProductRepr::new);
     }
 
 

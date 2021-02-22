@@ -21,6 +21,9 @@ public class User {
     @Column(nullable = false, length = 512)
     private String password;
 
+    @Column(nullable = false)
+    private Integer age;
+
     private String email;
 
 
@@ -36,6 +39,7 @@ public class User {
         this.username = user.getUsername();
         this.password = user.getPassword();
         this.email = user.getEmail();
+        this.age = user.getAge();
     }
 
     public Long getId() {
@@ -70,5 +74,11 @@ public class User {
         this.email = email;
     }
 
+    public Integer getAge() {
+        return age;
+    }
 
+    public void setAge(Integer age) {
+        this.age = age;
+    }
 }
