@@ -17,8 +17,9 @@
         <div class="col-12 mt-3">
             <form class="form-inline" th:method="get">
 
+
                 <div class="form-group mb-2 mr-2">
-                    <label for="productFilter" class="sr-only">Username filter</label>
+                    <label for="productFilter" class="sr-only">Product Name filter</label>
                     <input type="text" class="form-control" id="productFilter" th:value="${param.productFilter}"
                            name="productFilter" placeholder="ProductName filter">
                 </div>
@@ -41,10 +42,11 @@
             <table class="table table-bordered my-2">
                 <thead>
                 <tr>
-                    <th scope="col">Id</th>
-                    <th scope="col">Товар</th>
-                    <th scope="col">Описание</th>
-                    <th scope="col">Цена</th>
+
+                    <th scope="col">Id<a href="#"><i class="fa fa-sort-down" id="sortField" th:value="id"></i></a></th>
+                    <th scope="col">Товар<a href="#"><i class="fa fa-sort-down" id="sortField" th:value="id"></i></a></th>
+                    <th scope="col">Описание<a href="#"><i class="fa fa-sort-down" id="sortField" th:value="id"></i></a></th>
+                    <th scope="col">Цена<a href="#"><i class="fa fa-sort-down" id="sortField" th:value="id"></i></a></th>
                     <th scope="col">Действия</th>
                 </tr>
                 </thead>

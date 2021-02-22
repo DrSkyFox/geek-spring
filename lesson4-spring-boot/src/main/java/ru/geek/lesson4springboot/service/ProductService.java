@@ -13,7 +13,7 @@ public interface ProductService {
 
     void save(ProductRepr product);
 
-    Page<ProductRepr> findWithFilter(String productFilter, Double minCost, Double maxCost, Integer page, Integer size);
+    Page<ProductRepr> findWithFilter(String productFilter, Double minCost, Double maxCost, Integer page, Integer size, String sortField);
 
     void delete(long id);
 }
