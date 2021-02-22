@@ -38,20 +38,7 @@ public class ProductController {
                            @RequestParam("page") Optional<Integer> page,
                            @RequestParam("size") Optional<Integer> size,
                            @RequestParam("sortField") Optional<String> sortField) {
-        logger.info(String.format("List page requested. Parameters of filter: " +
-                        "\n productFilter = %s," +
-                        "\n costMinFilter =%s," +
-                        "\n costMaxFilter = %s," +
-                        "\n page =%s," +
-                        "\n size =%s," +
-                        "\n sortField=%s," +
-                        "\n orderBy=%s",
-                productFilter,
-                costMinFilter,
-                costMaxFilter,
-                page,
-                size,
-                sortField));
+        logger.info("List page requested. Parameters of filter: productFilter {}, costMinFilter {}, costMaxFilter {}, page {}, size {}, sortField {}", productFilter, costMinFilter,costMaxFilter, page,size,sortField);
 
         Page<ProductRepr> product = productService.findWithFilter(
                 productFilter.filter(s -> !s.isBlank()).orElse(null),
@@ -60,7 +47,6 @@ public class ProductController {
                 page.orElse(1) - 1,
                 size.orElse(3),
                 sortField.orElse("id"));
-
         model.addAttribute("product", product);
         return "product";
     }
