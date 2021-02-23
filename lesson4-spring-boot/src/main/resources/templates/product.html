@@ -78,16 +78,18 @@
                         <a th:if="${not (product.number eq 0)}" th:href="@{/product(page=${product.number},size=${product.size}, productFilter=${param.productFilter}, minCost=${param.minCost}, maxCost=${param.maxCost}, sortField=${param.sortField})}" class="page-link">Previous</a>
 <!--                        <a th:if="${product.number != 1}" href="javascript:void(0);" class="page-link">Previous</a>-->
                     </li>
-                    <li th:each="num: ${#numbers.sequence(1, product.totalPages)}"
-                        th:classappend="${num == product.number + 1} ? 'active'"
+                    <li th:each="num: ${#numbers.sequence(1, product.totalPages)}" th:if="${product.totalPages != 0}"
+                        th:classappend="${num == product.number + 1} ? 'active' : ''"
                         class="page-item">
-                        <a th:text="${num}"
+                        <a th:text="${num}" th:if="${num <= product.totalPages}"
                            th:href="@{/product(page=${num}, size=${product.size},
                            productFilter=${param.productFilter}, minCost=${param.minCost}, maxCost=${param.maxCost}, sortField=${param.sortField})}"
-                           class="page-link">1 <span th:if="${num == product.number + 1}" class="sr-only">(current)</span></a>
+                           class="page-link">
+                            <span th:if="${num == product.number + 1}" class="sr-only">(current)</span>
+                        </a>
                     </li>
-                    <li  th:classappend="${product.number eq product.totalPages} ? 'disabled' : ''">
-                        <a th:if="${not (product.number+1 eq product.totalPages)}" th:href="@{/product(page=${(product.number+2)},size=${product.size}, productFilter=${param.productFilter}, minCost=${param.minCost}, maxCost=${param.maxCost}, sortField=${param.sortField})}" class="page-link">Next</a>
+                    <li  th:classappend="${(product.number) eq product.totalPages} ? 'disabled' : ''">
+                        <a th:if="${not (product.number >= product.totalPages - 1)}" th:href="@{/product(page=${(product.number+2)},size=${product.size}, productFilter=${param.productFilter}, minCost=${param.minCost}, maxCost=${param.maxCost}, sortField=${param.sortField})}" class="page-link">Next</a>
 <!--                        <a th:if="${product.number == product.totalPages}" href="javascript:void(0);" class="page-link">Next</a>-->
                     </li>
                 </ul>
