@@ -1,5 +1,7 @@
 package ru.geek.lesson4springboot.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -7,6 +9,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.geek.lesson4springboot.controller.UserController;
 import ru.geek.lesson4springboot.persist.User;
 import ru.geek.lesson4springboot.persist.UserRepository;
 import ru.geek.lesson4springboot.specifications.UserSpecification;
@@ -18,7 +21,10 @@ import java.util.stream.Collectors;
 @Service
 public class UserServiceImpl implements UserService{
 
+    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+
     private final UserRepository userRepository;
+
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository) {
