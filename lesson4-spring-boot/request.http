@@ -1,0 +1,142 @@
+GET http://127.0.0.1:8080/spring-mvc-app/api/v1/user/all
+
+###
+
+GET http://127.0.0.1:8080/spring-mvc-app/api/v1/user/1
+
+###
+
+POST http://127.0.0.1:8080/spring-mvc-app/api/v1/user/
+Content-Type: application/json
+
+{
+  "username": "Aragorn",
+  "password": "ForGondor",
+  "age": 90,
+  "email": "tolkin@world.ru"
+}
+
+###
+
+POST http://127.0.0.1:8080/spring-mvc-app/api/v1/user/
+Content-Type: application/json
+
+{
+  "username": "Gendalf",
+  "password": "UShouldNotPass",
+  "age": 9999,
+  "email": "tolkin@world.ru"
+}
+
+###
+
+POST http://127.0.0.1:8080/spring-mvc-app/api/v1/user/
+Content-Type: application/json
+
+{
+  "username": "Sauron",
+  "password": "WhereIsMyRing",
+  "age": 9999,
+  "email": "tolkin@world.ru"
+}
+
+###
+
+
+PUT http://127.0.0.1:8080/spring-mvc-app/api/v1/user/
+Content-Type: application/json
+
+{
+  "id" : 8,
+  "username": "SauronDefeated",
+  "password": "WhereIsMyRingInFire",
+  "age": 9999,
+  "email": "tolkin@world.ru"
+}
+
+
+###
+
+GET http://127.0.0.1:8080/spring-mvc-app/api/v1/user/8
+
+###
+
+#bad requset exception
+PUT http://127.0.0.1:8080/spring-mvc-app/api/v1/user/
+Content-Type: application/json
+
+{
+  "username": "SauronNotDefeated",
+  "password": "RingIsMy",
+  "age": 9999,
+  "email": "tolkin@world.ru"
+}
+
+###
+
+DELETE http://127.0.0.1:8080/spring-mvc-app/api/v1/user/1
+
+
+###
+#Products
+
+GET http://127.0.0.1:8080/spring-mvc-app/api/v1/product/all
+
+###
+
+GET http://127.0.0.1:8080/spring-mvc-app/api/v1/product/2
+
+###
+
+POST http://127.0.0.1:8080/spring-mvc-app/api/v1/product/
+Content-Type: application/json
+
+{
+  "name": "IBANEZ RG370 DXL",
+  "description": "Nice Music Instrument",
+  "cost": 29900.00
+}
+
+###
+
+
+PUT http://127.0.0.1:8080/spring-mvc-app/api/v1/product/
+Content-Type: application/json
+
+{
+  "id" : 11,
+  "name": "IBANEZ RG370 DXL",
+  "description": "Nice Music Instrument",
+  "cost": 29800.00
+}
+
+###
+
+GET http://127.0.0.1:8080/spring-mvc-app/api/v1/product/11
+
+###
+
+POST http://127.0.0.1:8080/spring-mvc-app/api/v1/product/
+Content-Type: application/json
+
+{
+  "name": "Poison",
+  "description": "what ???",
+  "cost": 100
+}
+
+###
+
+DELETE http://127.0.0.1:8080/spring-mvc-app/api/v1/product/12
+
+###
+GET http://127.0.0.1:8080/spring-mvc-app/api/v1/product/all
+
+
+###
+
+GET http://194.67.116.189:8080/spring-mvc-app/api/v1/user/all
+
+
+###
+GET http://194.67.116.189:8080/spring-mvc-app/api/v1/product/all

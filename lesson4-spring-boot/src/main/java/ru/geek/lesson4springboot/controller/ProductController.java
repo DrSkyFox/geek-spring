@@ -46,7 +46,9 @@ public class ProductController {
                 costMaxFilter.orElse(null),
                 page.orElse(1) - 1,
                 size.orElse(3),
-                sortField.orElse("id"));
+                sortField.filter(s -> !s.isBlank()).orElse("id") // isBlank must be
+        );
+
         model.addAttribute("product", product);
         return "product";
     }

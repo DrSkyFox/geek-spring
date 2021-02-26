@@ -1,9 +1,12 @@
 package ru.geek.lesson4springboot.service;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.sun.istack.NotNull;
 import ru.geek.lesson4springboot.persist.User;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Positive;
 
 //DTO
 public class UserRepr {
@@ -14,13 +17,16 @@ public class UserRepr {
     @NotEmpty
     private String username;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @NotEmpty
     private String password;
 
+    @JsonIgnore
     @NotEmpty
     private String matchingPassword;
 
     @NotNull
+    @Positive
     private Integer age;
 
     @Email
