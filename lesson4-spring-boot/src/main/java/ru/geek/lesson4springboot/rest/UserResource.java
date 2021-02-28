@@ -25,6 +25,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Tag(name = "User resource API", description = "API to manipulate User resource")
+@CrossOrigin(origins = "http://localhost:63342")
 @RestController
 @RequestMapping("/api/v1/user")
 public class UserResource {
