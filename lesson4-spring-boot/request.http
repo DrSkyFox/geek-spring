@@ -2,7 +2,7 @@ GET http://127.0.0.1:8080/spring-mvc-app/api/v1/user/all
 
 ###
 
-GET http://127.0.0.1:8080/spring-mvc-app/api/v1/user/1
+GET http://127.0.0.1:8080/spring-mvc-app/api/v1/user/0
 
 ###
 
