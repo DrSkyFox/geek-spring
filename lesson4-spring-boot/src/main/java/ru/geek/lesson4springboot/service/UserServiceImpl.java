@@ -9,9 +9,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.geek.lesson4springboot.controller.UserController;
 import ru.geek.lesson4springboot.persist.User;
-import ru.geek.lesson4springboot.persist.UserRepository;
+import ru.geek.lesson4springboot.repositories.UserRepository;
 import ru.geek.lesson4springboot.specifications.UserSpecification;
 
 import java.util.List;

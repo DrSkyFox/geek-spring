@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ru.geek.lesson4springboot.persist.Product;
-import ru.geek.lesson4springboot.persist.ProductRepository;
+import ru.geek.lesson4springboot.repositories.ProductRepository;
 import ru.geek.lesson4springboot.specifications.ProductSpecification;
 
 
