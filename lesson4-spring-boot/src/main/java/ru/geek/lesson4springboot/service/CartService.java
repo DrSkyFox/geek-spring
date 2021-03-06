@@ -1,17 +1,17 @@
 package ru.geek.lesson4springboot.service;
 
 import ru.geek.lesson4springboot.persist.Cart;
-import ru.geek.lesson4springboot.persist.CartItem;
-import ru.geek.lesson4springboot.persist.User;
+import ru.geek.lesson4springboot.persist.LineItem;
 
 import java.util.List;
 
 public interface CartService {
 
-    Cart getCartOrCreate(Long userId);
+    void addProductForUserQty(long productId, long userId, int qty);
 
-    Cart addToCart(Long userId, Long productId, Integer quantity);
+    void removeProductForUser(long productId, long userId, int qty);
 
+    void removeAllForUser(long userId);
 
-    Cart clearCart(Long userId);
+    List<LineItem> findAllItemsForUser(long userId);
 }

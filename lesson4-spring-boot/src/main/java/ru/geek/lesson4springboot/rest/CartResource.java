@@ -8,7 +8,10 @@ import org.springframework.web.bind.annotation.*;
 import ru.geek.lesson4springboot.controller.BadRequestException;
 import ru.geek.lesson4springboot.controller.NotFoundException;
 import ru.geek.lesson4springboot.persist.Cart;
+import ru.geek.lesson4springboot.persist.LineItem;
 import ru.geek.lesson4springboot.service.CartService;
+
+import java.util.List;
 
 
 @RestController
@@ -22,33 +25,28 @@ public class CartResource {
         this.cartService = cartService;
     }
 
-    @Operation(summary = "Get cart")
-    @GetMapping("/{id}")
-    public Cart getCard(@PathVariable("id") Long id) {
-        return cartService.getCartOrCreate(id);
+    @PostMapping("/{userId}/user/{productId}/product")
+    public void addProductForUser(@PathVariable("userId") Long userId,
+                                  @PathVariable("productId") Long productId,
+                                  @RequestParam("qty") Integer qty) {
+        cartService.addProductForUserQty(productId, userId, qty);
     }
 
-    @Operation(summary = "Add item to cart")
-    @PostMapping("/additem")
-    Cart addToCart(@RequestParam("id") Long userId, @RequestParam("productId") Long productId, @RequestParam("quantity") Integer quantity)  {
-        return cartService.addToCart(userId, productId, quantity);
+    @GetMapping("/{userId}/user")
+    public List<LineItem> findItemsForUser(@PathVariable("userId") Long userId) {
+        return cartService.findAllItemsForUser(userId);
     }
 
-
-    @Operation(summary = "Clear cart")
-    @DeleteMapping("/clear")
-    Cart clearCart(@RequestParam("id") Long userId) {
-        return cartService.clearCart(userId);
+    @PostMapping("/remove/{userId}/user/{productId}/product")
+    public void removeProductForUser(@PathVariable("userId") Long userId,
+                                     @PathVariable("productId") Long productId,
+                                     @RequestParam("qty") Integer qty) {
+        cartService.removeProductForUser(productId, userId, qty);
     }
 
-    @ExceptionHandler
-    public ResponseEntity<String> notFoundException(NotFoundException ex) {
-        return new ResponseEntity<>("Entity not found", HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler
-    public ResponseEntity<String> badRequestException(BadRequestException ex) {
-        return new ResponseEntity<>("Bad request exception", HttpStatus.NOT_FOUND);
+    @DeleteMapping("/remove/{userId}/user")
+    public void removeAllForUser(@PathVariable("userId") Long userId) {
+        cartService.removeAllForUser(userId);
     }
 
 

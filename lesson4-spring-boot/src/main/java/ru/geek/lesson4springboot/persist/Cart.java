@@ -6,7 +6,7 @@ public class Cart {
 
     private Long id;
     private Long userId;
-    private List<CartItem> itemList;
+    private List<LineItem> itemList;
 
 
     public Cart(Long userId) {
@@ -33,11 +33,11 @@ public class Cart {
         this.userId = userId;
     }
 
-    public List<CartItem> getItemList() {
+    public List<LineItem> getItemList() {
         return itemList;
     }
 
-    public void setItemList(List<CartItem> itemList) {
+    public void setItemList(List<LineItem> itemList) {
         this.itemList = itemList;
     }
 }

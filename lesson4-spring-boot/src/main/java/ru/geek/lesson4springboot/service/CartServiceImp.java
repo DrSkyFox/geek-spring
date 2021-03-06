@@ -4,63 +4,68 @@ package ru.geek.lesson4springboot.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.geek.lesson4springboot.controller.NotFoundException;
-import ru.geek.lesson4springboot.persist.Cart;
+import ru.geek.lesson4springboot.persist.LineItem;
+import ru.geek.lesson4springboot.persist.Product;
 
-import ru.geek.lesson4springboot.persist.CartItem;
-import ru.geek.lesson4springboot.repositories.CartRepository;
-import ru.geek.lesson4springboot.repositories.ProductRepository;
-import ru.geek.lesson4springboot.repositories.UserRepository;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 @Service
 public class CartServiceImp implements CartService {
 
-    private final CartRepository cartRepository;
-    private final UserRepository userRepository;
-    private final ProductRepository productRepository;
 
+    private final Map<Long, Map<LineItem, Integer>> lineItemsMap = new ConcurrentHashMap<>();
+
+    private final ProductService productService;
+    private final UserService userService;
 
     @Autowired
-    public CartServiceImp(CartRepository cartRepository, UserRepository userRepository, ProductRepository productRepository) {
-        this.cartRepository = cartRepository;
-        this.userRepository = userRepository;
-        this.productRepository = productRepository;
+    public CartServiceImp(ProductService productService, UserService userService) {
+        this.productService = productService;
+        this.userService = userService;
     }
-
 
     @Override
-    public Cart getCartOrCreate(Long userId) {
-        return cartRepository.getCartOrCreate(userId);
-    }
+    public void addProductForUserQty(long productId, long userId, int qty) {
+        Map<LineItem, Integer> itemsForUser = lineItemsMap.computeIfAbsent(userId, k -> new HashMap<>());
 
+        ProductRepr product = productService.findById(productId).orElseThrow(NotFoundException::new);
+        UserRepr user = userService.findById(userId).orElseThrow(NotFoundException::new);
+        LineItem key = new LineItem(product, user, qty);
+
+        itemsForUser.merge(key, qty, Integer::sum);
+    }
 
     @Override
-    public Cart addToCart(Long userId, Long productId, Integer quantity) {
-        if(checkUserExists(userId)) {
-            Cart cart = cartRepository.getCartOrCreate(userId);
-            cart.getItemList().add(new CartItem(productRepository.findById(productId).orElseThrow(NotFoundException::new), quantity));
-            return cart;
+    public void removeProductForUser(long productId, long userId, int qty) {
+        Map<LineItem, Integer> itemsForUser = lineItemsMap.getOrDefault(userId, new HashMap<>());
+        if (itemsForUser == null) {
+            return;
         }
-        return null;
-    }
 
-    private boolean checkUserExists(Long userId) {
-        if(userRepository.findById(userId) == null) {
-            throw new NotFoundException();
+        LineItem key = new LineItem(productId, userId);
+        Integer count = itemsForUser.get(key);
+        if (count != null) {
+            if (count < qty) {
+                itemsForUser.remove(key);
+            } else {
+                itemsForUser.put(key, count - qty);
+            }
         }
-        return true;
     }
-
 
     @Override
-    public Cart clearCart(Long userId) {
-        if(checkUserExists(userId)) {
-            Cart cart =  cartRepository.getCartOrCreate(userId);
-            cart.setItemList(null);
-            return cart;
-        }
-        return null;
+    public void removeAllForUser(long userId) {
+        lineItemsMap.remove(userId);
     }
 
+    @Override
+    public List<LineItem> findAllItemsForUser(long userId) {
+        return new ArrayList<>(lineItemsMap.get(userId).keySet());
+    }
 
 }
