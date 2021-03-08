@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <nav th:replace="fragments/navigationbar.html :: head"/>
@@ -12,7 +13,8 @@
 
 <div class="container">
     <div class="row py-2">
-        <div class="col-12">
+
+        <div class="col-12" sec:authorize="hasAnyRole('SUPER_ADMIN')">
             <a class="btn btn-primary" th:href="@{/user/new}">Add User</a>
         </div>
 
@@ -36,7 +38,7 @@
                     <th scope="col" th:replace="fragments/sort_user :: sort_header ('Id', 'id')" />
                     <th scope="col" th:replace="fragments/sort_user :: sort_header ('Username', 'username')" />
                     <th scope="col" th:replace="fragments/sort_user :: sort_header ('Age', 'age')" />
-                    <th scope="col">Actions</th>
+                    <th scope="col" sec:authorize="hasAnyRole('SUPER_ADMIN')">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -44,7 +46,7 @@
                     <th th:text="${user.id}" scope="row">1</th>
                     <td th:text="${user.username}">Alex</td>
                     <td th:text="${user.age}">21</td>
-                    <td>
+                    <td sec:authorize="hasAnyRole('SUPER_ADMIN')">
                         <a class="btn btn-success" th:href="@{/user/{id}(id = ${user.id})}"><i class="fas fa-edit"></i></a>
                         <!--                        форма для удлания записи. отправляет запрос типа post-->
                         <form class="d-inline" th:method="delete" th:action="@{/user/{id}(id = ${user.id})}">

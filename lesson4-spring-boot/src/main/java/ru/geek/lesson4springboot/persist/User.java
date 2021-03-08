@@ -5,6 +5,7 @@ import ru.geek.lesson4springboot.service.UserRepr;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -27,6 +28,13 @@ public class User {
     private String email;
 
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
+
+
     public User(String username) {
         this.username = username;
     }
@@ -40,6 +48,7 @@ public class User {
         this.password = user.getPassword();
         this.email = user.getEmail();
         this.age = user.getAge();
+        this.roles = user.getRoles();
     }
 
     public Long getId() {
@@ -80,5 +89,13 @@ public class User {
 
     public void setAge(Integer age) {
         this.age = age;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }

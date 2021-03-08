@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import ru.geek.lesson4springboot.controller.BadRequestException;
 import ru.geek.lesson4springboot.controller.NotFoundException;
@@ -84,6 +85,7 @@ public class UserResource {
         return userRepr;
     }
 
+    @Secured("SUPER_ADMIN")
     @Operation(summary = "Create user and save into DB")
     @PostMapping(consumes = "application/json")
     public UserRepr create(@RequestBody UserRepr user) {
@@ -93,6 +95,7 @@ public class UserResource {
         service.save(user);
         return user;
     }
+    @Secured("SUPER_ADMIN")
     @Operation(summary = "Update data of user and save into DB")
     @PutMapping(consumes = "application/json")
     public void update(@RequestBody UserRepr user) {

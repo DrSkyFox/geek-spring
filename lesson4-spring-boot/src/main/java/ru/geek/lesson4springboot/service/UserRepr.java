@@ -3,10 +3,13 @@ package ru.geek.lesson4springboot.service;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.sun.istack.NotNull;
+import ru.geek.lesson4springboot.persist.Role;
 import ru.geek.lesson4springboot.persist.User;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Positive;
+import java.util.Objects;
+import java.util.Set;
 
 //DTO
 public class UserRepr {
@@ -32,6 +35,8 @@ public class UserRepr {
     @Email
     private String email;
 
+    private Set<Role> roles;
+
 
     public UserRepr(String username) {
         this.username = username;
@@ -43,6 +48,7 @@ public class UserRepr {
         this.password = user.getPassword();
         this.email = user.getEmail();
         this.age = user.getAge();
+        this.roles = user.getRoles();
     }
 
     public UserRepr() {
@@ -94,5 +100,26 @@ public class UserRepr {
 
     public void setAge(Integer age) {
         this.age = age;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserRepr userRepr = (UserRepr) o;
+        return id.equals(userRepr.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

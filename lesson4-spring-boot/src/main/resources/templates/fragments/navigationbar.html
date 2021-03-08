@@ -1,5 +1,6 @@
 <html lang="en"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head th:fragment="head">
     <!-- Required meta tags -->
@@ -14,6 +15,7 @@
 </head>
 
 <nav th:fragment="navbar (pageName)" class="navbar navbar-expand-lg navbar-light bg-light">
+
     <a class="navbar-brand" th:href="@{/}">Main Page</a>
 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -22,7 +24,7 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
+        <ul th:unless="${pageName == 'none'}" class="navbar-nav mr-auto">
             <li class="nav-item" th:classappend="${pageName == 'Products'} ? 'active'">
                 <a class="nav-link" th:href="@{/product}">Products</a>
             </li>
@@ -30,6 +32,23 @@
                 <a class="nav-link" th:href="@{/user}">Users</a>
             </li>
         </ul>
+
+        <form sec:authorize="isAnonymous()"
+              th:action="@{/login}"
+              class="form-inline my-2 my-lg-0" >
+            <button class="btn btn-outline-success my-2 my-sm-0">
+                Login
+            </button>
+        </form>
+
+        <form sec:authorize="isAuthenticated()"
+              th:action="@{/logout}" th:method="post"
+              class="form-inline my-2 my-lg-0" >
+            <button class="btn btn-outline-success my-2 my-sm-0">
+                Logout <span sec:authentication="principal.username"></span>
+            </button>
+        </form>
+
     </div>
 </nav>
 
