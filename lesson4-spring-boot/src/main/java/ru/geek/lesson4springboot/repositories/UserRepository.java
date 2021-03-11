@@ -18,6 +18,8 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
 
     Optional<User> findAllByUsernameContains(String username);
 
+    Optional<User> findUserByUsername(String username);
+
     @Query("select u from User u where u.username like :username")
     List<User> someQuery(@Param("username") String username);
 }

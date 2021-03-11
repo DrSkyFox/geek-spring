@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <nav th:replace="fragments/navigationbar.html :: head"/>
@@ -46,7 +47,7 @@
                     <th scope="col" th:replace="fragments/sort_product :: sort_header ('Товар', 'name')" />
                     <th scope="col" th:replace="fragments/sort_product :: sort_header ('Описание', 'description')" />
                     <th scope="col" th:replace="fragments/sort_product :: sort_header ('Цена', 'cost')" />
-                    <th scope="col">Действия</th>
+                    <th scope="col" sec:authorize="hasAnyRole('ROLE_ADMIN, SUPER_ADMIN')">Действия</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -55,7 +56,7 @@
                     <td th:text="${product.name}">Alex</td>
                     <td th:text="${product.description}">Alex</td>
                     <td th:text="${product.cost}">Alex</td>
-                    <td>
+                    <td sec:authorize="hasAnyRole('ROLE_ADMIN, SUPER_ADMIN')">
                         <a class="btn btn-success" th:href="@{/product/{id}(id = ${product.id})}"><i
                                 class="fas fa-edit"></i></a>
                         <form class="d-inline" th:method="delete"
