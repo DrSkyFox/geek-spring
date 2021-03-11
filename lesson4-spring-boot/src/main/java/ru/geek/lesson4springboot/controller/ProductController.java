@@ -5,6 +5,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -61,7 +64,8 @@ public class ProductController {
         return "product_form";
     }
 
-    @PostMapping("/update")
+    @PostAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_SUPER_ADMIN')")
+    @PostMapping("/edit/update")
     public String update(@Valid @ModelAttribute("product") ProductRepr product, BindingResult result) {
         logger.info("Update endpoint requested");
         if(result.hasErrors()) {
@@ -74,13 +78,14 @@ public class ProductController {
         return "redirect:/product";
     }
 
-    @GetMapping("/new")
+    @PostAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_SUPER_ADMIN')")
+    @GetMapping("/edit/new")
     public String create(Model model) {
         model.addAttribute("product", new ProductRepr());
         return "product_form";
     }
-
-    @GetMapping("/{id}/delete")
+    @PostAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_SUPER_ADMIN')")
+    @GetMapping("/edit/{id}/delete")
     public String remove(@PathVariable("id") Long id) {
         productService.delete(id);
         return "redirect:/product";
