@@ -39,7 +39,7 @@ public class ProductResource {
         return productRepr;
     }
 
-    @Secured("SUPER_ADMIN")
+    @Secured({"SUPER_ADMIN", "ADMIN"})
     @PostMapping(consumes = "application/json")
     public ProductRepr create(@RequestBody ProductRepr productRepr) {
         if(productRepr.getId() != null) {
@@ -49,7 +49,7 @@ public class ProductResource {
         return productRepr;
     }
 
-    @Secured("SUPER_ADMIN")
+    @Secured({"SUPER_ADMIN", "ADMIN"})
     @PutMapping(consumes = "application/json")
     public void update(@RequestBody ProductRepr productRepr) {
         if(productRepr.getId() == null) {
@@ -58,7 +58,7 @@ public class ProductResource {
         productService.save(productRepr);
     }
 
-    @Secured("SUPER_ADMIN")
+    @Secured({"SUPER_ADMIN", "ADMIN"})
     @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") Long id) {
         productService.delete(id);
