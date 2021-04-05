@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.geek.lesson4springboot.persist.User;
+import ru.geek.lesson4springboot.repositories.RoleRepository;
 import ru.geek.lesson4springboot.repositories.UserRepository;
 import ru.geek.lesson4springboot.specifications.UserSpecification;
 
@@ -25,13 +26,19 @@ public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-
+    private final RoleRepository roleRepository;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, RoleRepository roleRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.roleRepository = roleRepository;
     }
+
+
+
+
+
 
 
     @Override
@@ -73,9 +80,15 @@ public class UserServiceImpl implements UserService{
     public void save(UserRepr user) {
         User userToSave = new User(user);
         userToSave.setPassword(passwordEncoder.encode(userToSave.getPassword()));
+        logger.info("user to save: {} ", user.toString());
+
         userRepository.save(userToSave);
         if (user.getId() == null) {
             user.setId(userToSave.getId());
+        }
+
+        if(userToSave.getRoles() == null) {
+            userToSave.setRoles(roleRepository.findById(1l).stream().collect(Collectors.toSet()));
         }
     }
 

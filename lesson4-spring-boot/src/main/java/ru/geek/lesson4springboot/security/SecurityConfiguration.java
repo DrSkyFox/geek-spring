@@ -69,8 +69,9 @@ public class SecurityConfiguration {
             http
                     .authorizeRequests()
                     .antMatchers("/**/*.css", "/**/*.js").permitAll()
-                    .antMatchers("/product/**").permitAll()
                     .antMatchers("/user/**").hasAnyRole("ADMIN", "SUPER_ADMIN")
+                    .antMatchers("/product/*").permitAll()
+                    .antMatchers("/product/edit/**").hasAnyRole("ADMIN", "SUPER_ADMIN")
                     .and()
                     .formLogin()
                     .loginPage("/login")

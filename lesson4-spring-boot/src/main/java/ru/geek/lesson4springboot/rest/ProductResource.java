@@ -4,6 +4,7 @@ package ru.geek.lesson4springboot.rest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import ru.geek.lesson4springboot.controller.BadRequestException;
 import ru.geek.lesson4springboot.controller.NotFoundException;
@@ -38,6 +39,7 @@ public class ProductResource {
         return productRepr;
     }
 
+    @Secured({"SUPER_ADMIN", "ADMIN"})
     @PostMapping(consumes = "application/json")
     public ProductRepr create(@RequestBody ProductRepr productRepr) {
         if(productRepr.getId() != null) {
@@ -47,6 +49,7 @@ public class ProductResource {
         return productRepr;
     }
 
+    @Secured({"SUPER_ADMIN", "ADMIN"})
     @PutMapping(consumes = "application/json")
     public void update(@RequestBody ProductRepr productRepr) {
         if(productRepr.getId() == null) {
@@ -55,6 +58,7 @@ public class ProductResource {
         productService.save(productRepr);
     }
 
+    @Secured({"SUPER_ADMIN", "ADMIN"})
     @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") Long id) {
         productService.delete(id);

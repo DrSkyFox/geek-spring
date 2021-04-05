@@ -71,7 +71,7 @@ public class UserController {
         model.addAttribute("user", userService.findById(id).orElseThrow(NotFoundException::new));
         return "user_form";
     }
-    @Secured({"SUPER_ADMIN"})
+    @Secured({"ROLE_SUPER_ADMIN"})
     @PostMapping("/update")
     public String update(@Valid @ModelAttribute("user") UserRepr user, BindingResult result, Model model) {
         logger.info("Update endpoint requested");
@@ -93,7 +93,7 @@ public class UserController {
         return "redirect:/user";
     }
 
-    @Secured({"SUPER_ADMIN"})
+    @Secured({"ROLE_SUPER_ADMIN"})
     @GetMapping("/new")
     public String create(Model model)
     {
@@ -102,7 +102,7 @@ public class UserController {
         return "user_form";
     }
 
-    @Secured({"SUPER_ADMIN"})
+    @Secured({"ROLE_SUPER_ADMIN"})
     @DeleteMapping("/{id}")
     public String remove(@PathVariable("id") Long id) {
         logger.info("User delete request");
